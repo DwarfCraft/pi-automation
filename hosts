@@ -1,0 +1,8 @@
+[ubuntu]
+127.0.0.1 
+
+[ubuntu:vars]
+ansible_connection = ssh
+ansible_user = automation
+ansible_port = 22000
+ansible_ssh_pass = passw0rd
