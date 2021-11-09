@@ -6,3 +6,5 @@ ansible_connection = ssh
 ansible_user = automation
 ansible_port = 22000
 ansible_ssh_pass = passw0rd
+ansible_sudo_pass = passw0rd
+
