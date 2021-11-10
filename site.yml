@@ -14,6 +14,10 @@
       - zip
       - fonts-liberation
       - xdg-utils
+      - libnss3
+      - libasound2
+      - libcairo2
+      - libgtk-3-0
     chrome_release: "95.0.4638.69"
   tasks: 
     - name: update cache
@@ -54,9 +58,9 @@
         path: /tmp/google-chrome-stable_current_amd64.deb
         state: absent
     - name: copy files to test
-      fetch:
+      copy:
         src: selenium/test_selenium.py
         dest: /tmp
-        flat: test
+        mode: 0755
     - name: test installation
       command: /tmp/test_selenium.py
