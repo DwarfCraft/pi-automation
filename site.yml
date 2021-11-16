@@ -18,6 +18,7 @@
       - libasound2
       - libcairo2
       - libgtk-3-0
+      - rsyslog
     chrome_release: "95.0.4638.69"
   tasks: 
     - name: update cache
@@ -38,6 +39,10 @@
       get_url: 
         url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         dest: /tmp
+    - name: download pi-hole
+      get_url: 
+        url: https://install.pi-hole.net
+        dest: /tmp/basic-install.sh
     - name: install chrome
       command: "dpkg -i /tmp/google-chrome-stable_current_amd64.deb"
       become: true

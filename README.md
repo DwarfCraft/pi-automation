@@ -2,8 +2,11 @@
 
 ## Host OS requirements
 install sshpass
+
 install ansible
+
 update the hosts file to include the IP or DNS name
+
 update any vars in the hosts file as well with the username and password
 
 
