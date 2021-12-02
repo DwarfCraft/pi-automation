@@ -1,0 +1,64 @@
+---
+- hosts: all
+  vars: 
+    packages: 
+      - wget
+      - python3
+      - git
+      - vim
+      - curl
+      - xrdp
+      - python3-pip
+      - unzip
+      - zip
+      - rsyslog
+      - code
+      - openjdk-11-jdk
+      - bzip2
+      - dkms
+      - gcc
+      - make
+      - "linux-headers-{{ ansible_kernel }}"
+    chrome_release: "95.0.4638.69"
+  tasks: 
+    - name: Install vscode key
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc 
+        state: present
+      become: true
+    - name: Add vscode repo to list
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+      become: true
+    - name: Add android studio repo to list
+      apt_repository:
+        repo: ppa:maarten-fonville/android-studio
+        state: present
+      become: true
+    - name: update cache
+      become: true
+      become_user: root
+      apt: update_cache=yes
+    - name: install packages
+      become: true
+      become_user: root
+      apt:
+        state: present
+        name: "{{ packages }}"
+    - name: download selenium
+      command: "pip3 install selenium"
+      become: true
+      become_user: root
+    - name: download chrome
+      get_url: 
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dest: /tmp
+    - name: install chrome
+      command: "dpkg -i /tmp/google-chrome-stable_current_amd64.deb"
+      become: true
+      become_user: root
+    - name: Clean up chrome download
+      file: 
+        path: /tmp/google-chrome-stable_current_amd64.deb
+        state: absent

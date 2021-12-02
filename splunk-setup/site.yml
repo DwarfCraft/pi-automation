@@ -1,0 +1,61 @@
+---
+- hosts: all
+  vars: 
+    packages: 
+      - wget
+      - python3
+      - git
+      - vim
+      - curl
+      - xrdp
+      - nginx
+      - python3-pip
+      - unzip
+      - zip
+      - rsyslog
+    chrome_release: "95.0.4638.69"
+  tasks: 
+    - name: update cache
+      become: true
+      become_user: root
+      apt: update_cache=yes
+    - name: install packages
+      become: true
+      become_user: root
+      apt:
+        state: present
+        name: "{{ packages }}"
+    - name: download chrome
+      get_url: 
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dest: /tmp
+    - name: download pi-hole
+      get_url: 
+        url: https://install.pi-hole.net
+        dest: /tmp/basic-install.sh
+    - name: install chrome
+      command: "dpkg -i /tmp/google-chrome-stable_current_amd64.deb"
+      become: true
+      become_user: root
+    - name: unzip chrome driver
+      unarchive: 
+        src: http://chromedriver.storage.googleapis.com/95.0.4638.69/chromedriver_linux64.zip
+        dest: /usr/local/bin
+        remote_src: yes
+      become: true
+      become_user: root
+    - name: Clean up Chromedriver download
+      file:
+        path: /tmp/chromedriver_linux64.zip
+        state: absent
+    - name: Clean up chrome download
+      file: 
+        path: /tmp/google-chrome-stable_current_amd64.deb
+        state: absent
+    - name: copy files to test
+      copy:
+        src: selenium/test_selenium.py
+        dest: /tmp
+        mode: 0755
+    - name: test installation
+      command: /tmp/test_selenium.py
