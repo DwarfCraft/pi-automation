@@ -7,15 +7,10 @@
       - git
       - vim
       - curl
-      - xrdp
-      - nginx
       - python3-pip
-      - unzip
-      - zip
-      - screen
-      - openjdk-8-jdk
+      - openjdk-18-jdk
+      - tmux
       - rsyslog
-    chrome_release: "95.0.4638.69"
     minecraft_user: mine_user
     minecraft_group: mine_user
     minecraft_home: /opt/minecraft
@@ -25,6 +20,8 @@
         state: present
         name: "{{ minecraft_group }}"
         system: yes
+      become: true
+      become_user: root
     - name: create minecraft user
       user: 
         name: "{{ minecraft_user }}"
@@ -32,24 +29,39 @@
         comment: Minecraft User
         password: passw0rd
         state: present
+      become: true
+      become_user: root
     - name: update cache
       become: true
       become_user: root
-      apt: update_cache=yes
+      apt: 
+        update_cache: yes
+        cache_valid_time: 3600
     - name: install packages
       become: true
       become_user: root
       apt:
         state: present
         name: "{{ packages }}"
+    - name: create minecraft directory
+      file: 
+        path: /opt/minecraft
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: root
     - name: download minecraft
       get_url: 
-      url: https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar
+        url: https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar
         dest: /opt/minecraft
       become: true
       become_user: "{{ minecraft_user }}"
     - name: initial run to generate eula and server.properties
       shell: echo "stop" | java -jar /opt/minecraft/server.jar nogui
+      args:
+        chdir: /opt/minecraft
       become: true
       become_user: "{{ minecraft_user }}"
     - name: accept EULA
@@ -57,11 +69,15 @@
         path: /opt/minecraft/eula.txt
         regexp: '^eula=false'
         line: eula=true
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: set seed
       lineinfile:
         path: /opt/minecraft/server.properties
         regexp: '^level-seed='
         line: level-seed=8027300948549384115
+      become: true
+      become_user: "{{ minecraft_user }}"
     #- name: setup permissions
     - name: create systemd service
       template: 
@@ -69,16 +85,25 @@
         dest: /etc/systemd/system/minecraft-server.service
         owner: root
         group: root
+      become: true
+      become_user: root
     - name: create start script
       template:
         src: minecraft-server-start.sh
-        dest: {{minecraft_home}}/minecraft-server-start.sh
+        dest: "{{ minecraft_home }}/minecraft-server-start.sh"
         owner: root
         group: root
+      become: true
+      become_user: root
     - name: create stop script
       template:
         src: minecraft-server-stop.sh
-        dest: {{minecraft_home}}/minecraft-server-stop.sh
+        dest: "{{ minecraft_home }}/minecraft-server-stop.sh"
         owner: root
         group: root
+      become: true
+      become_user: root
+    - name: Setup Complete
+      debug: 
+        msg: "Setup Complete"
 
