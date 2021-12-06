@@ -16,7 +16,22 @@
       - openjdk-8-jdk
       - rsyslog
     chrome_release: "95.0.4638.69"
+    minecraft_user: mine_user
+    minecraft_group: mine_user
+    minecraft_home: /opt/minecraft
   tasks: 
+    - name: create minecraft group
+      group: 
+        state: present
+        name: "{{ minecraft_group }}"
+        system: yes
+    - name: create minecraft user
+      user: 
+        name: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+        comment: Minecraft User
+        password: passw0rd
+        state: present
     - name: update cache
       become: true
       become_user: root
@@ -30,17 +45,40 @@
     - name: download minecraft
       get_url: 
       url: https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar
-        dest: /tmp
-    - name: initial run
+        dest: /opt/minecraft
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: initial run to generate eula and server.properties
+      shell: echo "stop" | java -jar /opt/minecraft/server.jar nogui
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: accept EULA
+      lineinfile:
+        path: /opt/minecraft/eula.txt
+        regexp: '^eula=false'
+        line: eula=true
     - name: set seed
-    - name: setup permissions
-    - name: start server
-    - name: validate running
-    - name: copy files to test
-      copy:
-        src: selenium/test_selenium.py
-        dest: /tmp
-        mode: 0755
-    - name: test installation
-      command: /tmp/test_selenium.py
+      lineinfile:
+        path: /opt/minecraft/server.properties
+        regexp: '^level-seed='
+        line: level-seed=8027300948549384115
+    #- name: setup permissions
+    - name: create systemd service
+      template: 
+        src: minecraft-server.service 
+        dest: /etc/systemd/system/minecraft-server.service
+        owner: root
+        group: root
+    - name: create start script
+      template:
+        src: minecraft-server-start.sh
+        dest: {{minecraft_home}}/minecraft-server-start.sh
+        owner: root
+        group: root
+    - name: create stop script
+      template:
+        src: minecraft-server-stop.sh
+        dest: {{minecraft_home}}/minecraft-server-stop.sh
+        owner: root
+        group: root
+
