@@ -1,0 +1,45 @@
+---
+- hosts: all
+  vars: 
+    packages: 
+      - wget
+      - python3
+      - git
+      - vim
+      - curl
+      - xrdp
+      - nginx
+      - python3-pip
+      - unzip
+      - zip
+      - screen
+      - openjdk-8-jdk
+      - rsyslog
+    chrome_release: "95.0.4638.69"
+  tasks: 
+    - name: update cache
+      become: true
+      become_user: root
+      apt: update_cache=yes
+    - name: install packages
+      become: true
+      become_user: root
+      apt:
+        state: present
+        name: "{{ packages }}"
+    - name: download minecraft
+      get_url: 
+      url: https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar
+        dest: /tmp
+    - name: accept EULA
+    - name: set seed
+    - name: setup permissions
+    - name: start server
+    - name: validate running
+    - name: copy files to test
+      copy:
+        src: selenium/test_selenium.py
+        dest: /tmp
+        mode: 0755
+    - name: test installation
+      command: /tmp/test_selenium.py
