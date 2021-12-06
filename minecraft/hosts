@@ -1,10 +1,10 @@
-[ubuntu]
-127.0.0.1 
+[minecraft]
+10.0.0.51
 
-[ubuntu:vars]
+[minecraft:vars]
 ansible_connection = ssh
-ansible_user = automation
-ansible_port = 22000
-ansible_ssh_pass = passw0rd
-ansible_sudo_pass = passw0rd
+ansible_user = adam
+ansible_port = 22
+ansible_ssh_pass = root
+ansible_sudo_pass = root
 
