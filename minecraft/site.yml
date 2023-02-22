@@ -75,7 +75,7 @@
       lineinfile:
         path: /opt/minecraft/server.properties
         regexp: '^level-seed='
-        line: level-seed=8027300948549384115
+        line: level-seed=-7497863297697545553
       become: true
       become_user: "{{ minecraft_user }}"
     #- name: setup permissions
@@ -93,6 +93,7 @@
         dest: "{{ minecraft_home }}/minecraft-server-start.sh"
         owner: root
         group: root
+        mode: 0755
       become: true
       become_user: root
     - name: create stop script
@@ -101,6 +102,7 @@
         dest: "{{ minecraft_home }}/minecraft-server-stop.sh"
         owner: root
         group: root
+        mode: 0755
       become: true
       become_user: root
     - name: Setup Complete
