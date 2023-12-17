@@ -1,0 +1,18 @@
+{
+  "name": "connectivity-checker",
+  "version": "1.0.0",
+  "description": "Node Application to check connectivity to various web applications",
+  "main": "app.ts",
+  "scripts": {
+    "start": "node app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "dns": "^0.2.2",
+    "ws": "^8.13.0"
+  }
+}

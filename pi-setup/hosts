@@ -1,0 +1,9 @@
+[raspberry]
+10.0.0.34
+
+[raspberry:vars]
+ansible_connection = ssh
+ansible_user = kali
+ansible_port = 22
+ansible_ssh_pass = kali
+

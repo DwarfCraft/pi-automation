@@ -1,0 +1,112 @@
+---
+- name: Install Splunk on Raspberry Pis
+  hosts: raspberry
+  become: yes
+  tasks:
+    - name: Stop Splunk if it is started
+      systemd: 
+        name: SplunkForwarder
+        state: stopped
+        enabled: yes
+      register: splunk_stop
+      failed_when: 
+        - splunk_stop.failed == true
+        - '"Could not find the requested service" not in splunk_stop.msg'
+
+    - name: Download and Install Splunk UF
+      apt:
+        deb: https://download.splunk.com/products/universalforwarder/releases/9.1.2/linux/splunkforwarder-9.1.2-b6b9c8185839-Linux-armv8.deb
+        state: present
+
+    - name: Change ownership on Splunk directory
+      ansible.builtin.file:
+        path: /opt/splunkforwarder
+        owner: root
+        group: root
+        recurse: yes
+
+    - name: Remove the Splunk user
+      ansible.builtin.user:
+        name: splunkfwd
+        state: absent
+        remove: yes
+
+    - name: Remove the Splunk group
+      ansible.builtin.group:
+        name: splunkfwd
+        state: absent
+
+    - name: Disable boot-start, use the default settings, and accept the license
+      ansible.builtin.command:
+        argv:
+          - /opt/splunkforwarder/bin/splunk
+          - disable
+          - boot-start
+          - --accept-license
+          - --answer-yes
+          - --auto-ports
+          - --no-prompt
+
+    - name: Enable boot-start, use the default settings, and accept the license
+      ansible.builtin.command:
+        argv:
+          - /opt/splunkforwarder/bin/splunk
+          - enable
+          - boot-start
+          - -user
+          - root
+          - --accept-license
+          - --answer-yes
+          - --auto-ports
+          - --no-prompt
+
+    - name: Start Splunk
+      systemd: 
+        name: SplunkForwarder
+        state: started
+        enabled: yes
+        daemon_reload: yes
+      register: splunk_start
+      failed_when: 
+        - splunk_start.failed == true
+        - '"Could not find the requested service" not in splunk_start.msg'
+
+    - name: Create directory
+      ansible.builtin.file:
+        path: /opt/splunkforwarder/etc/apps/home_server/default
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create outputs.conf
+      ansible.builtin.copy:
+        dest: /opt/splunkforwarder/etc/apps/home_server/default/outputs.conf
+        content: |
+          [tcpout]
+          defaultGroup = default-autolb-group
+
+          [tcpout:default-autolb-group]
+          server = 10.0.0.220:9997
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy Directory to server
+      ansible.builtin.copy:
+        src: splunk/Splunk_TA_nix/
+        dest: /opt/splunkforwarder/etc/apps/Splunk_TA_nix/
+        owner: root
+        group: root
+        directory_mode: '0755'    
+
+    - name: Restart Splunk
+      systemd: 
+        name: SplunkForwarder
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
+      register: splunk_restart
+      failed_when: 
+        - splunk_restart.failed == true
+        - '"Could not find the requested service" not in splunk_restart.msg'

@@ -1,0 +1,21 @@
+---
+- name: Install software on Raspberry Pis
+  hosts: raspberry
+  become: yes
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install packages
+      apt:
+        name: 
+          - git
+          - python3
+          - python3-pip
+          - vim
+          - tmux
+        state: latest
+        
