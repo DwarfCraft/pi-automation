@@ -1,5 +1,5 @@
 [raspberry]
-10.0.0.34
+10.0.0.250
 
 [raspberry:vars]
 ansible_connection = ssh

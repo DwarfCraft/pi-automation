@@ -71,28 +71,15 @@
         - splunk_start.failed == true
         - '"Could not find the requested service" not in splunk_start.msg'
 
-    - name: Create directory
-      ansible.builtin.file:
-        path: /opt/splunkforwarder/etc/apps/home_server/default
-        state: directory
-        owner: root
-        group: root
-        mode: '0755'
-
-    - name: Create outputs.conf
+    - name: Copy Directory to server for outputs.conf
       ansible.builtin.copy:
-        dest: /opt/splunkforwarder/etc/apps/home_server/default/outputs.conf
-        content: |
-          [tcpout]
-          defaultGroup = default-autolb-group
-
-          [tcpout:default-autolb-group]
-          server = 10.0.0.220:9997
+        src: splunk/home_outputs/
+        dest: /opt/splunkforwarder/etc/apps/home_outputs/
         owner: root
         group: root
-        mode: '0644'
+        directory_mode: '0755' 
 
-    - name: Copy Directory to server
+    - name: Copy Directory to server for TA-nix
       ansible.builtin.copy:
         src: splunk/Splunk_TA_nix/
         dest: /opt/splunkforwarder/etc/apps/Splunk_TA_nix/
