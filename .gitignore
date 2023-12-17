@@ -47,3 +47,5 @@ coverage.xml
 
 # pipenv
 Pipfile.lock
+
+node_modules/
