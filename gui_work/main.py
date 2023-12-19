@@ -6,10 +6,10 @@ type_interval = random.uniform(0.1, 0.5)
 screenWidth, screenHeight = pyautogui.size()
 
 # Move the mouse to XY coordinates.
-pyautogui.moveTo(100, 150, duration=0.25)
+pyautogui.moveTo(100, 150, duration=type_interval)
 
 # Click the mouse.
-pyautogui.click(100, 150, duration=0.25, button='right')
+pyautogui.click(100, 150, duration=type_interval, button='right')
 
 # Type a string using the keyboard.
 pyautogui.write('Hello world!', interval=type_interval)  # type with quarter-second pause in between each key
