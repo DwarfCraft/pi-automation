@@ -1,0 +1,15 @@
+---
+- name: Test connectivity and command execution
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Test connectivity
+      ping:
+
+    - name: Check if server can run commands
+      command: echo "Server is able to run commands"
+      register: command_output
+
+    - name: Display command output
+      debug:
+        var: command_output.stdout

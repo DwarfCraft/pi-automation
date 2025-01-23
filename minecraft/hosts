@@ -1,5 +1,5 @@
 [minecraft]
-10.0.0.57
+10.0.0.240
 
 [minecraft:vars]
 ansible_connection = ssh
