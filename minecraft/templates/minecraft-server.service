@@ -5,7 +5,7 @@ Description=Minecraft server
 Type=forking
 Environment=SHELL=/bin/bash
 Environment=TMUX_SESSION=minecraft
-Environment=TMUX_WINDOW=spigot
+Environment=TMUX_WINDOW=fabric
 Environment=JVM_OPTS="-server -XX:+UseConcMarkSweepGC -XX:MaxGCPauseMillis=50 -Xmx3G"
 Restart=on-failure
 StartLimitBurst=5

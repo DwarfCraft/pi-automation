@@ -11,16 +11,23 @@
       - openjdk-21-jdk
       - tmux
       - rsyslog
+      - whois
     minecraft_user: mine_user
     minecraft_group: mine_user
     minecraft_home: /opt/minecraft
-    level_seed: -7497863297697545553
+    #level_seed: -7497863297697545553
+    level_seed: 123456789
+    motd_message: "HolmesCraft Server"
     # Version 1.21.4
     #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
     # Fabric Loader 0.16.10
     download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.16.10/1.0.1/server/jar
     root_user: root
+    root_group: root
   tasks: 
+    - name: create password for minecraft user
+      shell: mkpasswd -m sha-512 passw0rd
+      register: hashed_password
     - name: create minecraft group
       group: 
         state: present
@@ -33,7 +40,7 @@
         name: "{{ minecraft_user }}"
         group: "{{ minecraft_group }}"
         comment: Minecraft User
-        password: passw0rd
+        password: "{{ hashed_password.stdout }}"
         state: present
       become: true
       become_user: "{{ root_user }}"
@@ -84,13 +91,19 @@
         line: level-seed={{ level_seed }}
       become: true
       become_user: "{{ minecraft_user }}"
-    #- name: setup permissions
+    - name: set motd
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^motd='
+        line: motd={{ motd_message }}
+      become: true  
+      become_user: "{{ minecraft_user }}"
     - name: create systemd service
       template: 
         src: minecraft-server.service 
         dest: /etc/systemd/system/minecraft-server.service
         owner: "{{ root_user }}"
-        group: "{{ root_user }}"
+        group: "{{ root_group }}"
       become: true
       become_user: "{{ root_user }}"
     - name: create start script
@@ -98,7 +111,7 @@
         src: minecraft-server-start.sh
         dest: "{{ minecraft_home }}/minecraft-server-start.sh"
         owner: "{{ root_user }}"
-        group: "{{ root_user }}"
+        group: "{{ root_group }}"
         mode: 0755
       become: true
       become_user: "{{ root_user }}"
@@ -107,8 +120,15 @@
         src: minecraft-server-stop.sh
         dest: "{{ minecraft_home }}/minecraft-server-stop.sh"
         owner: "{{ root_user }}"
-        group: "{{ root_user }}"
+        group: "{{ root_group }}"
         mode: 0755
+      become: true
+      become_user: "{{ root_user }}"
+    - name: enable and start minecraft-server
+      systemd:
+        name: minecraft-server
+        enabled: yes
+        state: started
       become: true
       become_user: "{{ root_user }}"
     - name: Setup Complete
