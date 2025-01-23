@@ -180,11 +180,10 @@
         group: "{{ minecraft_group }}"
       become: true
       become_user: "{{ minecraft_user }}"
-    - name: unzip and install data packs
-      unarchive:
-        src: "{{ item }}"
-        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks"
-        remote_src: yes
+    - name: download the data packs
+      get_url:
+        url: "{{ item }}"
+        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks/{{ item | basename }}"
       with_items: "{{ data_packs }}"
       become: true
       become_user: "{{ minecraft_user }}"
