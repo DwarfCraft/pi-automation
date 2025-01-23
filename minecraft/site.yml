@@ -24,6 +24,8 @@
     download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.16.10/1.0.1/server/jar
     root_user: root
     root_group: root
+    fabric_mods:
+      - https://cdn.modrinth.com/data/jzTUm9hE/versions/a1M82O6Z/justmobheads-1.21.4-8.4.jar
   tasks: 
     - name: create password for minecraft user
       shell: mkpasswd -m sha-512 passw0rd
@@ -124,6 +126,13 @@
         mode: 0755
       become: true
       become_user: "{{ root_user }}"
+    - name: install mods
+      get_url:
+        url: "{{ item }}"
+        dest: "{{ minecraft_home }}/mods/{{ item | basename }}"
+      with_items: "{{ fabric_mods }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: enable and start minecraft-server
       systemd:
         name: minecraft-server
