@@ -18,6 +18,7 @@
     #level_seed: -7497863297697545553
     level_seed: 123456789
     motd_message: "The HolmesCraft Server"
+    level_name: "world"
     minecraft_version: 1.21.4
     #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
     # Fabric Loader 0.16.10
@@ -161,6 +162,15 @@
         url: "{{ item }}"
         dest: "{{ minecraft_home }}/mods/{{ item | basename }}"
       with_items: "{{ fabric_mods }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: ensure world and datapacks directories exist
+      file:
+        path: "{{ minecraft_home }}/{{ world_name }}/datapacks"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
       become: true
       become_user: "{{ minecraft_user }}"
     - name: unzip and install data packs
