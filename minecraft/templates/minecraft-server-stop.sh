@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set default values if environment variables do not exist
-TMUX_SESSION="${TMUX_SESSION:-minecraft}"
-TMUX_WINDOW="${TMUX_WINDOW:-fabric}"
+TMUX_SESSION="{{ tmux_session }}"
+TMUX_WINDOW="{{ tmux_window }}"
 
 tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "stop" ENTER
 
