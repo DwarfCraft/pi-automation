@@ -135,6 +135,13 @@
         line: motd={{ motd_message }}
       become: true  
       become_user: "{{ minecraft_user }}"
+    - name: set level name
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^level-name='
+        line: level-name={{ level_name }}
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: create systemd service
       template: 
         src: minecraft-server.service 
@@ -166,7 +173,7 @@
       become_user: "{{ minecraft_user }}"
     - name: ensure world and datapacks directories exist
       file:
-        path: "{{ minecraft_home }}/{{ world_name }}/datapacks"
+        path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
         state: directory
         mode: '0755'
         owner: "{{ minecraft_user }}"
@@ -176,7 +183,7 @@
     - name: unzip and install data packs
       unarchive:
         src: "{{ item }}"
-        dest: "{{ minecraft_home }}/world/datapacks"
+        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks"
         remote_src: yes
       with_items: "{{ data_packs }}"
       become: true
