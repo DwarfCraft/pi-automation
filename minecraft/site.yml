@@ -143,9 +143,9 @@
         line: level-name={{ level_name }}
       become: true
       become_user: "{{ minecraft_user }}"
-      - name: set view distance
+    - name: set view distance
       lineinfile:
-        path:: "{{ minecraft_home }}/server.properties"
+        path: "{{ minecraft_home }}/server.properties"
         regexp: '^view-distance='
         line: view-distance={{ view_distance }}
       become: true
