@@ -172,6 +172,13 @@
         mode: 0755
       become: true
       become_user: "{{ minecraft_user }}"
+    - name: create setup script
+      template:
+        src: setup-minecraft-server.sh
+        dest: "{{ minecraft_home }}/setup-minecraft-server.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: install mods
       get_url:
         url: "{{ item }}"
@@ -202,6 +209,10 @@
         state: started
       become: true
       become_user: "{{ root_user }}"
+    - name: run final server setup script
+      shell: "{{ minecraft_home }}/setup-minecraft-server.sh"
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: Setup Complete
       debug: 
         msg: "Setup Complete"
