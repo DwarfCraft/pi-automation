@@ -12,4 +12,5 @@ while ! grep -q '\[Server thread\/INFO\]: Done' ${MINECRAFT_HOME}/logs/latest.lo
     sleep 1
     echo "Waiting for server to start..."
 done 
-tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" ENTER   
+tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" 
+tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
