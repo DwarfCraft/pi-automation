@@ -19,6 +19,7 @@
     level_seed: 123456789
     motd_message: "The HolmesCraft Server"
     level_name: "world"
+    view_distance: 32
     minecraft_version: 1.21.4
     #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
     # Fabric Loader 0.16.10
@@ -140,6 +141,13 @@
         path: "{{ minecraft_home }}/server.properties"
         regexp: '^level-name='
         line: level-name={{ level_name }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+      - name: set view distance
+      lineinfile:
+        path:: "{{ minecraft_home }}/server.properties"
+        regexp: '^view-distance='
+        line: view-distance={{ view_distance }}
       become: true
       become_user: "{{ minecraft_user }}"
     - name: create systemd service
