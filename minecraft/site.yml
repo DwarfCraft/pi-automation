@@ -227,7 +227,7 @@
     - name: run final server setup script
       shell: "{{ minecraft_home }}/setup-minecraft-server.sh"
       become: true
-      become_user: "{{ minecraft_user }}"
+      become_user: "{{ root_user }}"
     - name: Setup Complete
       debug: 
         msg: "Setup Complete"
