@@ -17,7 +17,7 @@
     minecraft_home: /opt/minecraft
     backup_dir: /opt/backups
     #level_seed: -7497863297697545553
-    level_seed: 123456789
+    level_seed: 5103687417315433447
     motd_message: "The HolmesCraft Server"
     level_name: "world"
     view_distance: 32
