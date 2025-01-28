@@ -77,6 +77,8 @@
         name: "{{ minecraft_user }}"
         group: "{{ minecraft_group }}"
         comment: Minecraft User
+        home: "{{ minecraft_home }}"
+        shell: /bin/bash
         password: "{{ hashed_password.stdout }}"
         state: present
       become: true

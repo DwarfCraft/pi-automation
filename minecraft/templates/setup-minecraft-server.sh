@@ -21,11 +21,12 @@ echo "Command completed: setworldspawn 0 0 0"
 # setup cronjob to run the backup-minecraft-server.sh script every hour
 echo "Setting up cronjob to run the backup-minecraft-server.sh script every hour"
 # Variables
-BACKUP_SCRIPT="/opt/minecraft/backup-minecraft-server.sh"
-CRONJOB_FILE="/etc/cron.d/minecraft-backup"
-CRONJOB_SCHEDULE="0 * * * * root $BACKUP_SCRIPT"
-# Create the cronjob file
-echo "$CRONJOB_SCHEDULE" > $CRONJOB_FILE
+BACKUP_SCRIPT="{{ minecraft_home }}/backup-minecraft-server.sh"
+CRONJOB_SCHEDULE="0 * * * * $MINECRAFT_USER $BACKUP_SCRIPT"
+
+# Add the cron job to the crontab
+(crontab -l -u $MINECRAFT_USER 2>/dev/null; echo "$CRONJOB_SCHEDULE") | crontab -u $MINECRAFT_USER -
+
 # Print completion message
 echo "Cronjob created: $CRONJOB_FILE"
 
