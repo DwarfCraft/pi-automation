@@ -263,6 +263,8 @@
         minute: 0
         hour: "*"
         user: "{{ minecraft_user }}"
+      become: true
+      become_user: "{{ root_user }}"
     - name: Setup Complete
       debug: 
         msg: "Setup Complete"
