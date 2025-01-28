@@ -179,6 +179,13 @@
         mode: 0755
       become: true
       become_user: "{{ minecraft_user }}"
+    - name: setup backup script
+      template:
+        src: backup-minecraft-server.sh
+        dest: "{{ minecraft_home }}/backup-minecraft-server.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: install mods
       get_url:
         url: "{{ item }}"
@@ -209,6 +216,14 @@
         state: started
       become: true
       become_user: "{{ root_user }}"
+    - name: validate server is up and running by checking the logs
+      shell: tail -n 20 {{ minecraft_home }}/logs/latest.log
+      register: server_logs
+      until: '"[Server thread/INFO]: Done" in server_logs.stdout'
+      retries: 10
+      delay: 5
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: run final server setup script
       shell: "{{ minecraft_home }}/setup-minecraft-server.sh"
       become: true

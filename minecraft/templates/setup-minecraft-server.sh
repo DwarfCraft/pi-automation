@@ -12,3 +12,18 @@ while ! grep -q '\[Server thread\/INFO\]: Done' ${MINECRAFT_HOME}/logs/latest.lo
 done 
 tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" 
 tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
+
+# Print completion message
+echo "Command completed: setworldspawn 0 0 0"
+
+# setup cronjob to run the backup-minecraft-server.sh script every hour
+echo "Setting up cronjob to run the backup-minecraft-server.sh script every hour"
+# Variables
+BACKUP_SCRIPT="/opt/minecraft/backup-minecraft-server.sh"
+CRONJOB_FILE="/etc/cron.d/minecraft-backup"
+CRONJOB_SCHEDULE="0 * * * * root $BACKUP_SCRIPT"
+# Create the cronjob file
+echo "$CRONJOB_SCHEDULE" > $CRONJOB_FILE
+# Print completion message
+echo "Cronjob created: $CRONJOB_FILE"
+
