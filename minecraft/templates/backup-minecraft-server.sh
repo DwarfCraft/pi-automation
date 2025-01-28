@@ -12,5 +12,8 @@ mkdir -p $BACKUP_DIR
 # Backup the important parts of the Minecraft server
 tar -czvf $BACKUP_FILE $SERVER_DIR/world $SERVER_DIR/server.properties $SERVER_DIR/whitelist.json $SERVER_DIR/ops.json
 
+# Only keep 7 days worth of backups
+find $BACKUP_DIR -type f -name 'minecraft_backup_*' -mtime +7 -exec rm {} \;
+
 # Print completion message
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup completed: $BACKUP_FILE"
