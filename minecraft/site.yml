@@ -15,6 +15,7 @@
     minecraft_user: mine_user
     minecraft_group: mine_user
     minecraft_home: /opt/minecraft
+    backup_dir: /opt/backups
     #level_seed: -7497863297697545553
     level_seed: 123456789
     motd_message: "The HolmesCraft Server"
@@ -77,7 +78,6 @@
         name: "{{ minecraft_user }}"
         group: "{{ minecraft_group }}"
         comment: Minecraft User
-        home: "{{ minecraft_home }}"
         shell: /bin/bash
         password: "{{ hashed_password.stdout }}"
         state: present
@@ -95,6 +95,15 @@
       apt:
         state: present
         name: "{{ packages }}"
+    - name: create backup directory
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ root_user }}"
     - name: create minecraft directory
       file: 
         path: "{{ minecraft_home }}"

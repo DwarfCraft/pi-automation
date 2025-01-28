@@ -13,4 +13,4 @@ mkdir -p $BACKUP_DIR
 tar -czvf $BACKUP_FILE $SERVER_DIR/world $SERVER_DIR/server.properties $SERVER_DIR/whitelist.json $SERVER_DIR/ops.json
 
 # Print completion message
-echo "Backup completed: $BACKUP_FILE"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup completed: $BACKUP_FILE"
