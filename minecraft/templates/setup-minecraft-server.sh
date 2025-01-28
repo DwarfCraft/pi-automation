@@ -11,8 +11,9 @@ while ! grep -q '\[Server thread\/INFO\]: Done' ${MINECRAFT_HOME}/logs/latest.lo
     sleep 1
     echo "Waiting for server to start..."
 done 
-su - $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" 
-su - $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
+# run commands as minecraft user to set the world spawn point to 0 0 0
+sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" 
+sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
 
 # Print completion message
 echo "Command completed: setworldspawn 0 0 0"
