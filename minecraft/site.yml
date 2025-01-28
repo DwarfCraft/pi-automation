@@ -252,10 +252,6 @@
       shell: "{{ minecraft_home }}/setup-minecraft-server.sh"
       become: true
       become_user: "{{ root_user }}"
-      register: setup_output
-    - name: debug setup output
-      debug:
-        var: setup_output
     - name: setup hourly cron job for backups
       cron:
         name: "backup-minecraft-server"
