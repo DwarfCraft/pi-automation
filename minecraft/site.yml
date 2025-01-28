@@ -108,6 +108,18 @@
         dest: "{{ minecraft_home }}/server.jar"
       become: true
       become_user: "{{ minecraft_user }}"
+    - name: check if server.properties and eula.txt exist
+      stat:
+        path: "{{ minecraft_home }}/server.properties"
+      register: server_properties
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: check if eula.txt exists
+      stat: 
+        path: "{{ minecraft_home }}/eula.txt"
+      register: eula
+      become: true
+      become_user: "{{ minecraft_user }}"
     - name: initial run to generate eula and server.properties
       shell: echo "stop" | java -jar {{ minecraft_home }}/server.jar nogui
       args:
@@ -115,6 +127,7 @@
       become: true
       become_user: "{{ minecraft_user }}"
       ignore_errors: yes
+      when: eula.stat.exists == false or server_properties.stat.exists == false
     - name: accept EULA
       lineinfile:
         path: "{{ minecraft_home }}/eula.txt"
