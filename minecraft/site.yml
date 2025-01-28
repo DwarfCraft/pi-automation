@@ -256,6 +256,13 @@
     - name: debug setup output
       debug:
         var: setup_output
+    - name: setup hourly cron job for backups
+      cron:
+        name: "backup-minecraft-server"
+        job: "{{ minecraft_home }}/backup-minecraft-server.sh"
+        minute: 0
+        hour: "*"
+        user: "{{ minecraft_user }}"
     - name: Setup Complete
       debug: 
         msg: "Setup Complete"

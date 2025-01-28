@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-SERVER_DIR="/opt/minecraft"
-BACKUP_DIR="/opt/backup"
+SERVER_DIR="{{ minecraft_home }}"
+BACKUP_DIR="{{ backup_dir }}"
 TIMESTAMP=$(date +"%Y%m%d%H%M%S")
 BACKUP_FILE="$BACKUP_DIR/minecraft_backup_$TIMESTAMP.tar.gz"
 
