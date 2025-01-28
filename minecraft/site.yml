@@ -256,9 +256,6 @@
     - name: debug setup output
       debug:
         var: setup_output
-    - name: become root to setup cron job
-      become: true
-      become_user: "{{ root_user }}"
     - name: setup hourly cron job for backups
       cron:
         name: "backup-minecraft-server"
