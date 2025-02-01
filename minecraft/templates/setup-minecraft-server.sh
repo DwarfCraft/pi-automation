@@ -19,8 +19,9 @@ while ! grep -q '\[Server thread\/INFO\]: Done' ${MINECRAFT_HOME}/logs/latest.lo
 done 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server has started."
 # run commands as minecraft user to set the world spawn point to 0 0 0
-sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn 0 0 0" 
+sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn -375 77 -73" 
 sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
 
+# echo "2000 70 659 == Nether Forest
 # Print completion message
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Command completed: setworldspawn 0 0 0"
