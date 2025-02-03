@@ -4,6 +4,12 @@ TMUX_SESSION="{{ tmux_session }}"
 TMUX_WINDOW="{{ tmux_window }}"
 MINECRAFT_HOME="{{ minecraft_home }}"
 MINECRAFT_USER="{{ minecraft_user }}"
+SERVER_COMMANDS=(
+    "setworldspawn -375 77 -73"
+    "worldborder set 6000"
+    "gamerule doFireTick false"
+    "gamerule playerSleepingPercentage 0"
+)
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Checking if the server has started..."
 # Look for '[Server thread/INFO]: Stopping the server' and '[Server thread/INFO]: Done' in the latest.log to validate the server has started
@@ -19,9 +25,12 @@ while ! grep -q '\[Server thread\/INFO\]: Done' ${MINECRAFT_HOME}/logs/latest.lo
 done 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server has started."
 # run commands as minecraft user to set the world spawn point to 0 0 0
-sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "setworldspawn -375 77 -73" 
-sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER   
+
+# Loop through the SERVER_COMMANDS array and run the commands
+for command in "${SERVER_COMMANDS[@]}"; do
+    sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" "$command"
+    sudo -u $MINECRAFT_USER tmux send -t "${TMUX_SESSION}:${TMUX_WINDOW}" ENTER
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Command completed: $command"
+done
 
 # echo "2000 70 659 == Nether Forest
-# Print completion message
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Command completed: setworldspawn 0 0 0"
