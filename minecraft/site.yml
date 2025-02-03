@@ -19,6 +19,7 @@
     #level_seed: -7497863297697545553
     level_seed: 5103687417315433447
     motd_message: "The HolmesCraft Server"
+    spawn_protection: 0
     level_name: "world"
     view_distance: 32
     minecraft_version: 1.21.4
@@ -172,6 +173,13 @@
         path: "{{ minecraft_home }}/server.properties"
         regexp: '^view-distance='
         line: view-distance={{ view_distance }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set spawn protection
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^spawn-protection='
+        line: spawn-protection={{ spawn_protection }}
       become: true
       become_user: "{{ minecraft_user }}"
     - name: create systemd service
