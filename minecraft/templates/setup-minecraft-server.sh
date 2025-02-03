@@ -8,7 +8,7 @@ SERVER_COMMANDS=(
     "setworldspawn -375 77 -73"
     "worldborder set 6000"
     "gamerule doFireTick false"
-    "gamerule playerSleepingPercentage 0"
+    "gamerule playersSleepingPercentage 0"
 )
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Checking if the server has started..."
