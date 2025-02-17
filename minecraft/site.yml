@@ -54,7 +54,7 @@
       - https://cdn.modrinth.com/data/v1U62WLz/versions/7CJFzrgx/Statistic-Books-MC_v1.5.3.zip
     tmux_session: minecraft
     tmux_window: fabric
-    java_opts: "-server -Xmx3G -Xms3G"
+    java_opts: "-server -Xmx3G -Xms3G -XX:+UseZGC -XX:+ZGenerational"
   tasks: 
     - name: stop minecraft if started
       systemd:
