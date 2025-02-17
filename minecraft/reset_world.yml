@@ -1,0 +1,281 @@
+---
+- hosts: all
+  vars: 
+    packages: 
+      - wget
+      - python3
+      - git
+      - vim
+      - curl
+      - python3-pip
+      - openjdk-21-jdk
+      - tmux
+      - rsyslog
+      - whois
+    minecraft_user: mine_user
+    minecraft_group: mine_user
+    minecraft_home: /opt/minecraft
+    backup_dir: /opt/backups
+    #level_seed: -7497863297697545553
+    level_seed: 5103687417315433447
+    motd_message: "The HolmesCraft Server"
+    spawn_protection: 0
+    level_name: "world"
+    view_distance: 32
+    minecraft_version: 1.21.4
+    #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
+    # Fabric Loader 0.16.10
+    download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.16.10/1.0.1/server/jar
+    root_user: root
+    root_group: root
+    fabric_mods:
+      - https://cdn.modrinth.com/data/P7dR8mSH/versions/S6sAWXmr/fabric-api-0.115.0%2B1.21.4.jar
+      - https://cdn.modrinth.com/data/e0M1UDsY/versions/F3ciVO4i/collective-1.21.4-7.89.jar
+      - https://cdn.modrinth.com/data/jzTUm9hE/versions/a1M82O6Z/justmobheads-1.21.4-8.4.jar
+      - https://cdn.modrinth.com/data/XeEZ3fK2/versions/2NxXpmvb/freecam-fabric-1.3.2%2Bmc1.21.4.jar
+      - https://cdn.modrinth.com/data/9nFfpUyI/versions/K1EzInY1/datapack-injector-fabric-1.0.0%2B1.21.4.jar
+      - https://cdn.modrinth.com/data/9s6osm5g/versions/TJ6o2sr4/cloth-config-17.0.144-fabric.jar
+      - https://cdn.modrinth.com/data/NSBscIsQ/versions/Eab6gMjQ/inhabitor-fabric-1.21.4-1.0.5.jar
+      - https://cdn.modrinth.com/data/PFwYNrHb/versions/oHSKvtDH/ArmorPoser-fabric-1.21.4-8.0.1.jar
+      - https://cdn.modrinth.com/data/TnOXNf5e/versions/bKJTIXoi/peek-fabric-1.21.4-1.3.6.jar
+      - https://cdn.modrinth.com/data/SRlzjEBS/versions/377C94c4/audioplayer-fabric-1.21.4-1.13.2.jar
+      - https://cdn.modrinth.com/data/YoRtMPzM/versions/xdII66jg/SHA1Runtime-1.21.4-1.3.0.jar
+      - https://cdn.modrinth.com/data/fQEb0iXm/versions/Acz3ttTp/krypton-0.2.8.jar
+      - https://cdn.modrinth.com/data/gvQqBUqZ/versions/QCuodIia/lithium-fabric-0.14.7%2Bmc1.21.4.jar
+      - https://cdn.modrinth.com/data/kPkTtp4N/versions/UacLsNLJ/coordfinder-fabric-1.21.4-1.1.0.jar
+      - https://cdn.modrinth.com/data/l6YH9Als/versions/X2sypdTL/spark-1.10.121-fabric.jar
+      - https://cdn.modrinth.com/data/nxrXbh5K/versions/JHg6ZYop/viewdistancefix-fabric-1.21.4-1.0.2.jar
+      - https://cdn.modrinth.com/data/uXXizFIs/versions/IPM0JlHd/ferritecore-7.1.1-fabric.jar
+      - https://cdn.modrinth.com/data/9eGKb6K1/versions/4Zzq92HE/voicechat-fabric-1.21.4-2.5.27.jar
+    data_packs:
+      - https://cdn.modrinth.com/data/1s7zUX2O/versions/eKFrEd4h/name_formatting_station_v2.5.zip
+      - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
+      - https://cdn.modrinth.com/data/Cfqq3Wh1/versions/GwCDYRR1/armor_statues_v2.14.0.zip
+      - https://cdn.modrinth.com/data/v1U62WLz/versions/7CJFzrgx/Statistic-Books-MC_v1.5.3.zip
+    tmux_session: minecraft
+    tmux_window: fabric
+    java_opts: "-server -Xmx3G -Xms3G -XX:+UseZGC -XX:+ZGenerational"
+  tasks: 
+    - name: stop minecraft if started
+      systemd:
+        name: minecraft-server
+        state: stopped
+        enabled: no
+      ignore_errors: yes
+      become: true
+      become_user: "{{ root_user }}"
+    - name: create password for minecraft user
+      shell: mkpasswd -m sha-512 passw0rd
+      register: hashed_password
+    - name: create minecraft group
+      group: 
+        state: present
+        name: "{{ minecraft_group }}"
+        system: yes
+      become: true
+      become_user: "{{ root_user }}"
+    - name: create minecraft user
+      user: 
+        name: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+        comment: Minecraft User
+        shell: /bin/bash
+        password: "{{ hashed_password.stdout }}"
+        state: present
+      become: true
+      become_user: "{{ root_user }}"
+    - name: update cache
+      become: true
+      become_user: "{{ root_user }}"
+      apt: 
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: install packages
+      become: true
+      become_user: "{{ root_user }}"
+      apt:
+        state: present
+        name: "{{ packages }}"
+    - name: delete the minecraft directory
+      file:
+        path: "{{ minecraft_home }}"
+        state: absent
+      become: true
+      become_user: "{{ root_user }}"
+    - name: create backup directory
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: create minecraft directory
+      file: 
+        path: "{{ minecraft_home }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: download minecraft
+      get_url: 
+        url: "{{ download_url }}"
+        dest: "{{ minecraft_home }}/server.jar"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: check if server.properties and eula.txt exist
+      stat:
+        path: "{{ minecraft_home }}/server.properties"
+      register: server_properties
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: check if eula.txt exists
+      stat: 
+        path: "{{ minecraft_home }}/eula.txt"
+      register: eula
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: initial run to generate eula and server.properties
+      shell: echo "stop" | java -jar {{ minecraft_home }}/server.jar nogui
+      args:
+        chdir: "{{ minecraft_home }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+      ignore_errors: yes
+      when: eula.stat.exists == false or server_properties.stat.exists == false
+    - name: accept EULA
+      lineinfile:
+        path: "{{ minecraft_home }}/eula.txt"
+        regexp: '^eula=false'
+        line: eula=true
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set seed
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^level-seed='
+        line: level-seed={{ level_seed }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set motd
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^motd='
+        line: motd={{ motd_message }}
+      become: true  
+      become_user: "{{ minecraft_user }}"
+    - name: set level name
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^level-name='
+        line: level-name={{ level_name }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set view distance
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^view-distance='
+        line: view-distance={{ view_distance }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set spawn protection
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^spawn-protection='
+        line: spawn-protection={{ spawn_protection }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: create systemd service
+      template: 
+        src: minecraft-server.service 
+        dest: /etc/systemd/system/minecraft-server.service
+        owner: "{{ root_user }}"
+        group: "{{ root_group }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: create start script
+      template:
+        src: minecraft-server-start.sh
+        dest: "{{ minecraft_home }}/minecraft-server-start.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: create stop script
+      template:
+        src: minecraft-server-stop.sh
+        dest: "{{ minecraft_home }}/minecraft-server-stop.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: create setup script
+      template:
+        src: setup-minecraft-server.sh
+        dest: "{{ minecraft_home }}/setup-minecraft-server.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: setup backup script
+      template:
+        src: backup-minecraft-server.sh
+        dest: "{{ minecraft_home }}/backup-minecraft-server.sh"
+        mode: 0755
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: install mods
+      get_url:
+        url: "{{ item }}"
+        dest: "{{ minecraft_home }}/mods/{{ item | basename }}"
+      with_items: "{{ fabric_mods }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: ensure world and datapacks directories exist
+      file:
+        path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: download the data packs
+      get_url:
+        url: "{{ item }}"
+        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks/{{ item | basename }}"
+      with_items: "{{ data_packs }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: enable and start minecraft-server
+      systemd:
+        name: minecraft-server
+        enabled: yes
+        state: started
+      become: true
+      become_user: "{{ root_user }}"
+    - name: validate server is up and running by checking the logs
+      shell: tail -n 20 {{ minecraft_home }}/logs/latest.log
+      register: server_logs
+      until: '"[Server thread/INFO]: Done" in server_logs.stdout'
+      retries: 10
+      delay: 5
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: run final server setup script
+      shell: "{{ minecraft_home }}/setup-minecraft-server.sh"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: setup hourly cron job for backups
+      cron:
+        name: "backup-minecraft-server"
+        job: "{{ minecraft_home }}/backup-minecraft-server.sh"
+        minute: 0
+        hour: "*"
+        user: "{{ minecraft_user }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Setup Complete
+      debug: 
+        msg: "Setup Complete"
+
