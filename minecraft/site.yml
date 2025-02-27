@@ -54,6 +54,8 @@
       - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
       - https://cdn.modrinth.com/data/Cfqq3Wh1/versions/GwCDYRR1/armor_statues_v2.14.0.zip
       - https://cdn.modrinth.com/data/v1U62WLz/versions/7CJFzrgx/Statistic-Books-MC_v1.5.3.zip
+    vanilla_tweaks:
+      - https://vanillatweaks.net/download/VanillaTweaks_d708813_UNZIP_ME.zip
     tmux_session: minecraft
     tmux_window: fabric
     java_opts: "-server -Xmx3G -Xms3G -XX:+UseZGC -XX:+ZGenerational"
@@ -241,6 +243,14 @@
         url: "{{ item }}"
         dest: "{{ minecraft_home }}/{{ level_name }}/datapacks/{{ item | basename }}"
       with_items: "{{ data_packs }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: download and unzip the vanilla tweaks data packs
+      unarchive:
+        src: "{{ item }}"
+        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+        remote_src: yes
+      with_items: "{{ vanilla_tweaks }}"
       become: true
       become_user: "{{ minecraft_user }}"
     - name: enable and start minecraft-server
