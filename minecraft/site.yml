@@ -56,6 +56,7 @@
       - https://cdn.modrinth.com/data/v1U62WLz/versions/7CJFzrgx/Statistic-Books-MC_v1.5.3.zip
     vanilla_tweaks:
       - https://vanillatweaks.net/download/VanillaTweaks_d157821_UNZIP_ME.zip
+      - https://vanillatweaks.net/download/VanillaTweaks_d334926_UNZIP_ME.zip
     tmux_session: minecraft
     tmux_window: fabric
     java_opts: "-server -Xmx3G -Xms3G -XX:+UseZGC -XX:+ZGenerational"
