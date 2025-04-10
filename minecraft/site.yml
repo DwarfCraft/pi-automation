@@ -20,6 +20,7 @@
     level_seed: 5103687417315433447
     motd_message: "The HolmesCraft Server"
     spawn_protection: 0
+    difficulty: hard
     level_name: "world"
     view_distance: 32
     minecraft_version: 1.21.4
@@ -185,6 +186,13 @@
         path: "{{ minecraft_home }}/server.properties"
         regexp: '^spawn-protection='
         line: spawn-protection={{ spawn_protection }}
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: set difficuly to hard
+      lineinfile:
+        path: "{{ minecraft_home }}/server.properties"
+        regexp: '^difficulty='
+        line: difficulty={{ difficulty }}
       become: true
       become_user: "{{ minecraft_user }}"
     - name: create systemd service
