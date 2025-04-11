@@ -8,7 +8,6 @@
       - vim
       - curl
       - python3-pip
-      - openjdk-21-jdk
       - tmux
       - rsyslog
       - whois
@@ -56,8 +55,9 @@
       - https://cdn.modrinth.com/data/Cfqq3Wh1/versions/GwCDYRR1/armor_statues_v2.14.0.zip
       - https://cdn.modrinth.com/data/v1U62WLz/versions/7CJFzrgx/Statistic-Books-MC_v1.5.3.zip
     vanilla_tweaks:
-      - https://vanillatweaks.net/download/VanillaTweaks_d157821_UNZIP_ME.zip
-      - https://vanillatweaks.net/download/VanillaTweaks_d334926_UNZIP_ME.zip
+      #- https://vanillatweaks.net/download/VanillaTweaks_d157821_UNZIP_ME.zip
+      #- https://vanillatweaks.net/download/VanillaTweaks_d334926_UNZIP_ME.zip
+      - https://vanillatweaks.net/download/VanillaTweaks_d866465_UNZIP_ME.zip
     tmux_session: minecraft
     tmux_window: fabric
     java_opts: "-server -Xmx3G -Xms3G -XX:+UseZGC -XX:+ZGenerational"
@@ -70,8 +70,49 @@
       ignore_errors: yes
       become: true
       become_user: "{{ root_user }}"
+    - name: update cache on Ubuntu
+      when: ansible_os_family == "Debian"
+      become: true
+      become_user: "{{ root_user }}"
+      apt: 
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: update cache on RedHat
+      when: ansible_os_family == "RedHat"
+      become: true
+      become_user: "{{ root_user }}"
+      dnf:
+        update_cache: yes
+    - name: install packages on Ubuntu
+      when: ansible_os_family == "Debian"
+      become: true
+      become_user: "{{ root_user }}"
+      apt:
+        state: present
+        name: "{{ packages }}"
+    - name: install packages on RedHat
+      when: ansible_os_family == "RedHat"
+      become: true
+      become_user: "{{ root_user }}"
+      dnf:
+        state: present
+        name: "{{ packages }}"
+    - name: install Java on Ubuntu
+      when: ansible_os_family == "Debian"
+      become: true
+      become_user: "{{ root_user }}"
+      apt:
+        name: openjdk-21-jdk
+        state: present
+    - name: install Java on RedHat
+      when: ansible_os_family == "RedHat"
+      become: true
+      become_user: "{{ root_user }}"
+      dnf:
+        name: jdk-21-headless
+        state: present
     - name: create password for minecraft user
-      shell: mkpasswd -m sha-512 passw0rd
+      shell: openssl passwd -1 -salt $(openssl rand -base64 6) "{{ minecraft_user }}" | cut -d':' -f2
       register: hashed_password
     - name: create minecraft group
       group: 
@@ -90,18 +131,6 @@
         state: present
       become: true
       become_user: "{{ root_user }}"
-    - name: update cache
-      become: true
-      become_user: "{{ root_user }}"
-      apt: 
-        update_cache: yes
-        cache_valid_time: 3600
-    - name: install packages
-      become: true
-      become_user: "{{ root_user }}"
-      apt:
-        state: present
-        name: "{{ packages }}"
     - name: create backup directory
       file:
         path: "{{ backup_dir }}"
@@ -288,6 +317,28 @@
         minute: 0
         hour: "*"
         user: "{{ minecraft_user }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Copy Minecraft Firewalld service file
+      template:
+        src: minecraft.xml
+        dest: /etc/firewalld/services/minecraft.xml
+        mode: '0644'
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Reload Firewalld to apply new service
+      command: firewall-cmd --reload
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Enable Minecraft Firewalld service
+      firewalld:
+        service: minecraft
+        permanent: yes
+        state: enabled
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Reload Firewalld after enabling service
+      command: firewall-cmd --reload
       become: true
       become_user: "{{ root_user }}"
     - name: Setup Complete
