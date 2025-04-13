@@ -5,6 +5,7 @@ TMUX_WINDOW="{{ tmux_window }}"
 MINECRAFT_HOME="{{ minecraft_home }}"
 MINECRAFT_USER="{{ minecraft_user }}"
 SERVER_COMMANDS=(
+    "whitelist on"
     "setworldspawn -177 63 -514"
     "worldborder set 6000"
     "gamerule doFireTick false"
