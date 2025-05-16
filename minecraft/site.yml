@@ -57,12 +57,19 @@
       - https://cdn.modrinth.com/data/v1U62WLz/versions/Cylr4gal/Statistic-Books-MC_v1.6.zip
       - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
 
-    vanilla_tweaks:
-      #- https://vanillatweaks.net/download/VanillaTweaks_d157821_UNZIP_ME.zip
-      #- https://vanillatweaks.net/download/VanillaTweaks_d334926_UNZIP_ME.zip
-      #- https://vanillatweaks.net/download/VanillaTweaks_d866465_UNZIP_ME.zip
-      #- https://vanillatweaks.net/download/VanillaTweaks_d311364_UNZIP_ME.zip
-      - https://vanillatweaks.net/download/VanillaTweaks_d277272_UNZIP_ME.zip
+    vanilla_tweaks_post_url: "https://vanillatweaks.net/assets/server/zipdatapacks.php"
+    vanilla_tweaks_post_data:
+      decorative-cosmetic:
+        - "wandering+trades"
+        - "armor+statues"
+        - "more+mob+heads"
+        - "player+head+drops"
+        - "silence+mobs"
+      informative:
+        - "spawning+spheres"
+        - "wandering+trader+announcements"
+        - "durability+ping"
+    vanilla_tweaks_download_dest: "/tmp/VanillaTweaks_UNZIP_ME.zip"
     tmux_session: minecraft
     tmux_window: fabric
     java_opts: "-server -Xmx8G -Xms8G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1"
@@ -296,14 +303,33 @@
       with_items: "{{ data_packs }}"
       become: true
       become_user: "{{ minecraft_user }}"
+
+    - name: POST data to VanillaTweaks and get response
+      uri:
+        url: "{{ vanilla_tweaks_post_url }}"
+        method: POST
+        body_format: json
+        body: "{{ vanilla_tweaks_post_data }}"
+        return_content: yes
+        status_code: 200
+      register: vanilla_tweaks_post_response
+
+    - name: Extract download URL from response
+      set_fact:
+        download_url: "https://vanillatweaks.net{{ vanilla_tweaks_post_response.json.link }}"
+
+    - name: Download file from received URL
+      get_url:
+        url: "{{ download_url }}"
+        dest: "{{ vanilla_tweaks_download_dest }}"
+
     - name: download and unzip the vanilla tweaks data packs
       unarchive:
-        src: "{{ item }}"
+        src: "{{ vanilla_tweaks_download_dest }}"
         dest: "{{ minecraft_home }}/{{ level_name }}/datapacks"
-        remote_src: yes
-      with_items: "{{ vanilla_tweaks }}"
       become: true
       become_user: "{{ minecraft_user }}"
+
     - name: enable and start minecraft-server
       systemd:
         name: minecraft-server
