@@ -14,8 +14,10 @@ MAX_HASH_FILE_SIZE=1024  # 1MB in KB
 # Create backup directory if it doesn't exist
 mkdir -p "$BACKUP_DIR"
 
-# Tell Minecraft to save and pause world writes for a consistent backup
+# Notify players that a backup is starting
 if tmux has-session -t "${TMUX_SESSION}" 2>/dev/null; then
+    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say [Server] A backup is starting. You may experience a brief lag." ENTER
+    sleep 2
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-off" ENTER
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-all" ENTER
     sleep 5
@@ -30,6 +32,7 @@ tar -czf "$BACKUP_FILE" -C "$BACKUP_DIR" incremental
 # Resume world saving after backup
 if tmux has-session -t "${TMUX_SESSION}" 2>/dev/null; then
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-on" ENTER
+    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say [Server] Backup complete! Thank you for your patience." ENTER
 fi
 
 # Update hash file to avoid recalculating checksums
