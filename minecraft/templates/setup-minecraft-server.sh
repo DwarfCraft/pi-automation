@@ -6,10 +6,11 @@ MINECRAFT_HOME="{{ minecraft_home }}"
 MINECRAFT_USER="{{ minecraft_user }}"
 SERVER_COMMANDS=(
     "whitelist on"
-    "setworldspawn -177 63 -514"
+    "setworldspawn -169 68 -537"
     "worldborder set 10000"
     "gamerule doFireTick false"
     "gamerule playersSleepingPercentage 0"
+    "gamerule "enderPearlsVanishOnDeath" false"
 )
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Checking if the server has started..."
