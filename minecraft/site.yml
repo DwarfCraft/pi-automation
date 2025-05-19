@@ -58,17 +58,16 @@
       - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
 
     vanilla_tweaks_post_url: "https://vanillatweaks.net/assets/server/zipdatapacks.php"
-    vanilla_tweaks_post_data:
-      decorative-cosmetic:
-        - "wandering+trades"
-        - "armor+statues"
-        - "more+mob+heads"
-        - "player+head+drops"
-        - "silence+mobs"
-      informative:
-        - "spawning+spheres"
-        - "wandering+trader+announcements"
-        - "durability+ping"
+    #vanilla_tweaks_body: "packs=%7B%22decorative-cosmetic%22%3A%5B%22player+head+drops%22%5D%7D&version=1.21"
+    #decorative_cosmetic_packs: ["player head drops"]
+    #informative_packs: ["wandering+trader+announcements"]
+    decorative_cosmetic: ["wandering trades", "armor statues", "more mob heads", "player head drops", "silence mobs"]
+    informative: ["spawning spheres", "wandering trader announcements", "durability ping"]
+    #vanilla_tweaks_body: |
+    #  packs={"decorative-cosmetic":{{ decorative_cosmetic | to_json }}, "informative":{{ informative | to_json }}}&version=1.21
+    packs_json: |
+          {"decorative-cosmetic": {{ decorative_cosmetic | to_json }}, "informative": {{ informative | to_json }}}
+    vanilla_tweaks_body: "packs={{ packs_json | urlencode }}&version=1.21"
     vanilla_tweaks_download_dest: "/tmp/VanillaTweaks_UNZIP_ME.zip"
     tmux_session: minecraft
     tmux_window: fabric
@@ -304,15 +303,28 @@
       become: true
       become_user: "{{ minecraft_user }}"
 
-    - name: POST data to VanillaTweaks and get response
+    - name: Prepare POST body for VanillaTweaks
       uri:
         url: "{{ vanilla_tweaks_post_url }}"
         method: POST
-        body_format: json
-        body: "{{ vanilla_tweaks_post_data }}"
+        body_format: form-urlencoded
+        body: "{{ vanilla_tweaks_body }}"
         return_content: yes
         status_code: 200
       register: vanilla_tweaks_post_response
+
+    - name: Debug POST response
+      debug:
+        var: vanilla_tweaks_post_response
+
+    - name: Debug POST body being sent
+      debug:
+        msg: "POST body: {{ vanilla_tweaks_body | urlencode }}"
+
+    - name: Validate response contains 'link'
+      fail:
+        msg: "The response does not contain a 'link' attribute: {{ vanilla_tweaks_post_response }}"
+      when: vanilla_tweaks_post_response.json.link is not defined
 
     - name: Extract download URL from response
       set_fact:
@@ -323,10 +335,11 @@
         url: "{{ download_url }}"
         dest: "{{ vanilla_tweaks_download_dest }}"
 
-    - name: download and unzip the vanilla tweaks data packs
+    - name: Unarchive the downloaded VanillaTweaks file
       unarchive:
         src: "{{ vanilla_tweaks_download_dest }}"
         dest: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+        remote_src: yes
       become: true
       become_user: "{{ minecraft_user }}"
 
