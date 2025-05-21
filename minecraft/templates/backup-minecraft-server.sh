@@ -16,7 +16,7 @@ mkdir -p "$BACKUP_DIR"
 
 # Notify players that a backup is starting
 if tmux has-session -t "${TMUX_SESSION}" 2>/dev/null; then
-    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say [Server] A backup is starting. You may experience a brief lag." ENTER
+    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say A backup is starting. You may experience a brief lag." ENTER
     sleep 2
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-off" ENTER
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-all" ENTER
