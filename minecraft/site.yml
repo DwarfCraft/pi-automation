@@ -16,7 +16,6 @@
     minecraft_group: mine_user
     minecraft_home: /opt/minecraft
     backup_dir: /opt/backups
-    #level_seed: -7497863297697545553
     level_seed: 5103687417315433447
     motd_message: "The HolmesCraft Server"
     spawn_protection: 0
@@ -58,13 +57,8 @@
       - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
 
     vanilla_tweaks_post_url: "https://vanillatweaks.net/assets/server/zipdatapacks.php"
-    #vanilla_tweaks_body: "packs=%7B%22decorative-cosmetic%22%3A%5B%22player+head+drops%22%5D%7D&version=1.21"
-    #decorative_cosmetic_packs: ["player head drops"]
-    #informative_packs: ["wandering+trader+announcements"]
     decorative_cosmetic: ["wandering trades", "armor statues", "more mob heads", "player head drops", "silence mobs"]
     informative: ["spawning spheres", "wandering trader announcements", "durability ping"]
-    #vanilla_tweaks_body: |
-    #  packs={"decorative-cosmetic":{{ decorative_cosmetic | to_json }}, "informative":{{ informative | to_json }}}&version=1.21
     packs_json: |
           {"decorative-cosmetic": {{ decorative_cosmetic | to_json }}, "informative": {{ informative | to_json }}}
     vanilla_tweaks_body: "packs={{ packs_json | urlencode }}&version=1.21"
