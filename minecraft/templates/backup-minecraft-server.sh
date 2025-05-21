@@ -32,7 +32,7 @@ tar -czf "$BACKUP_FILE" -C "$BACKUP_DIR" incremental
 # Resume world saving after backup
 if tmux has-session -t "${TMUX_SESSION}" 2>/dev/null; then
     tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "save-on" ENTER
-    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say [Server] Backup complete! Thank you for your patience." ENTER
+    tmux send-keys -t "${TMUX_SESSION}:${TMUX_WINDOW}" "say Backup complete! Thank you for your patience." ENTER
 fi
 
 # Update hash file to avoid recalculating checksums
