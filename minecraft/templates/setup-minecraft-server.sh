@@ -7,7 +7,7 @@ MINECRAFT_USER="{{ minecraft_user }}"
 SERVER_COMMANDS=(
     "whitelist on"
     "setworldspawn -169 68 -537"
-    "worldborder set 10000"
+    "worldborder set 20000"
     "gamerule doFireTick false"
     "gamerule playersSleepingPercentage 0"
     "gamerule "enderPearlsVanishOnDeath" false"
