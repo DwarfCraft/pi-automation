@@ -1,0 +1,57 @@
+---
+- hosts: all
+  vars: 
+    minecraft_user: mine_user
+    minecraft_group: mine_user
+    minecraft_home: /opt/minecraft
+    level_name: "world"
+    root_user: root
+    root_group: root
+  tasks: 
+    - name: stop minecraft if started
+      systemd:
+        name: minecraft-server
+        state: stopped
+        enabled: no
+      ignore_errors: yes
+      become: true
+      become_user: "{{ root_user }}"
+
+    - name: delete mods to prep for upgrade
+      file:
+        path: "{{ minecraft_home }}/mods"
+        state: absent
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+    - name: delete datapacks to prep for upgrade
+      file:
+        path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+        state: absent
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+   
+    - name: create the mods directory
+      file:
+        path: "{{ minecraft_home }}/mods"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ root_user }}"
+
+    - name: create the datapacks directory
+      file:
+        path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+        state: directory
+        mode: '0755'
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+      become: true
+      become_user: "{{ root_user }}"
+    - name: Upgrade prep complete
+      debug: 
+        msg: "Upgrade preparation complete. Mods and datapacks have been removed."
+
