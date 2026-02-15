@@ -22,44 +22,45 @@
     difficulty: hard
     level_name: "world"
     view_distance: 32
-    minecraft_version: 1.21.7
+    minecraft_version: 1.21.11
     #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
     # Fabric Loader 0.16.14
-    download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.7/0.16.14/1.0.3/server/jar
+    download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.11/0.18.4/1.1.1/server/jar
     root_user: root
     root_group: root
     fabric_mods:
-      - https://cdn.modrinth.com/data/YoRtMPzM/versions/OqUZogW2/SHA1Runtime-1.21.5-1.3.0.jar
-    # Fabric Mods for 1.21.6
-      - https://cdn.modrinth.com/data/XeEZ3fK2/versions/t9um0ii2/freecam-fabric-1.3.4%2Bmc1.21.6.jar
-    # Fabric Mods for 1.21.7
-      - https://cdn.modrinth.com/data/jzTUm9hE/versions/8iLd6EBD/justmobheads-1.21.7-8.7.jar
-      - https://cdn.modrinth.com/data/fQEb0iXm/versions/neW85eWt/krypton-0.2.9.jar
-      - https://cdn.modrinth.com/data/b93awgkg/versions/UxbUjpuC/status-fabric-1.21.7-1.0.8.jar
-      - https://cdn.modrinth.com/data/NSBscIsQ/versions/a7VY9aV0/inhabitor-fabric-1.21.7-1.0.5.jar
-      - https://cdn.modrinth.com/data/1LE7mid6/versions/SuYYBTU7/instantgroup-fabric-1.21.7-1.7.0.jar
-      - https://cdn.modrinth.com/data/9s6osm5g/versions/cz0b1j8R/cloth-config-19.0.147-fabric.jar
-      - https://cdn.modrinth.com/data/nxrXbh5K/versions/UQS0dpDe/viewdistancefix-fabric-1.21.7-1.0.2.jar
-      - https://cdn.modrinth.com/data/PFwYNrHb/versions/rUi8unC2/ArmorPoser-fabric-1.21.7-11.0.1.jar
-      - https://cdn.modrinth.com/data/9nFfpUyI/versions/4r9uBXmA/datapack-injector-fabric-1.0.0%2B1.21.7.jar
-      - https://cdn.modrinth.com/data/TnOXNf5e/versions/4TpqcXzr/peek-fabric-1.21.7-1.4.5.jar
-      - https://cdn.modrinth.com/data/P7dR8mSH/versions/JntuF9Ul/fabric-api-0.129.0%2B1.21.7.jar
-      - https://cdn.modrinth.com/data/gvQqBUqZ/versions/77EtzYFA/lithium-fabric-0.18.0%2Bmc1.21.7.jar
-      - https://cdn.modrinth.com/data/kPkTtp4N/versions/IDZVkfVK/coordfinder-fabric-1.21.7-1.1.0.jar
-      - https://cdn.modrinth.com/data/9eGKb6K1/versions/YjxCZ3Wx/voicechat-fabric-1.21.7-2.5.34.jar
-      - https://cdn.modrinth.com/data/uXXizFIs/versions/CtMpt7Jr/ferritecore-8.0.0-fabric.jar
-      - https://cdn.modrinth.com/data/SRlzjEBS/versions/1cNRNynB/audioplayer-fabric-1.21.7-1.13.2.jar
-      - https://cdn.modrinth.com/data/l6YH9Als/versions/wPYvarTa/spark-1.10.140-fabric.jar
-      - https://cdn.modrinth.com/data/cz5Ve1NT/versions/owyx44OE/player-drops-head-v3.4.1.jar
-      - https://cdn.modrinth.com/data/e0M1UDsY/versions/1vOnuu89/collective-1.21.7-8.4.jar
+    # Fabric Mods for 1.21.10
+      #- https://cdn.modrinth.com/data/kPkTtp4N/versions/7qLQenlv/coordfinder-fabric-1.21.10-1.1.0.jar
+      # /\ This works in 1.21.10 but not 1.21.11, so I moved it to the 1.21.10 section
+    # Fabric Mods for 1.21.11
+      - https://cdn.modrinth.com/data/1LE7mid6/versions/TZsIDYOE/enhancedgroups-fabric-1.21.11-1.7.1.jar
+      - https://cdn.modrinth.com/data/gvQqBUqZ/versions/qvNsoO3l/lithium-fabric-0.21.3%2Bmc1.21.11.jar
+      - https://cdn.modrinth.com/data/9s6osm5g/versions/xuX40TN5/cloth-config-21.11.153-fabric.jar
+      - https://cdn.modrinth.com/data/9eGKb6K1/versions/pFTZ8sqQ/voicechat-fabric-1.21.11-2.6.12.jar
+      - https://cdn.modrinth.com/data/fQEb0iXm/versions/O9LmWYR7/krypton-0.2.10.jar
+      - https://cdn.modrinth.com/data/b93awgkg/versions/Dw8gVR1R/status-fabric-1.21.11-1.1.0.jar
+      - https://cdn.modrinth.com/data/YoRtMPzM/versions/xOPNzoIc/SHA1Runtime-1.21.11-1.4.1.jar
+      - https://cdn.modrinth.com/data/uXXizFIs/versions/Ii0gP3D8/ferritecore-8.2.0-fabric.jar
+      - https://cdn.modrinth.com/data/P7dR8mSH/versions/i5tSkVBH/fabric-api-0.141.3%2B1.21.11.jar
+      - https://cdn.modrinth.com/data/XeEZ3fK2/versions/34bZL2kK/freecam-fabric-1.3.6%2Bmc1.21.11.jar
+      - https://cdn.modrinth.com/data/NSBscIsQ/versions/EFHHiQTF/inhabitor-fabric-1.21.11-1.0.7.jar
+      - https://cdn.modrinth.com/data/nxrXbh5K/versions/13lPLnFp/viewdistancefix-fabric-1.21.11-1.0.2.jar
+      - https://cdn.modrinth.com/data/9nFfpUyI/versions/YOktbaoF/datapack-injector-fabric-1.0.0%2B1.21.11.jar
+      - https://cdn.modrinth.com/data/TnOXNf5e/versions/dWLOrrLE/peek-fabric-1.21.11-1.4.9.jar
+      - https://cdn.modrinth.com/data/SRlzjEBS/versions/cxRGd2KF/audioplayer-fabric-2.1.0%2B1.21.11.jar
+      - https://cdn.modrinth.com/data/l6YH9Als/versions/1CB3cS0m/spark-1.10.156-fabric.jar
+      - https://cdn.modrinth.com/data/e0M1UDsY/versions/T8rv7kwo/collective-1.21.11-8.13.jar
+      - https://cdn.modrinth.com/data/PFwYNrHb/versions/nkNfOD50/ArmorPoser-fabric-1.21.11-13.1.0.jar
+      - https://cdn.modrinth.com/data/cz5Ve1NT/versions/JVA3SQni/player-drops-head-v3.4.1.jar
+      - https://cdn.modrinth.com/data/jzTUm9hE/versions/cVsrTAJ5/justmobheads-1.21.11-8.9.jar
 
     data_packs:
-      - https://cdn.modrinth.com/data/2pK3w13d/versions/9hCPx2N1/custom_roleplay_data_v1.5.zip
-      - https://cdn.modrinth.com/data/1s7zUX2O/versions/Hsy8WtG4/name_formatting_station_v2.7.zip
-      - https://cdn.modrinth.com/data/Cfqq3Wh1/versions/uQIY48mC/armor_statues_v2.15.1.zip
-    # Mods for 1.21.6
-      - https://cdn.modrinth.com/data/v1U62WLz/versions/RGeyLRng/Statistic-Books-MC_v1.6.1.zip
-    # Mods for 1.21.7
+    # Mods for 1.21.10
+      - https://cdn.modrinth.com/data/v1U62WLz/versions/gT5GHeMS/Statistic-Books-MC_v1.6.3.zip
+    # Mods for 1.21.11
+      - https://cdn.modrinth.com/data/Cfqq3Wh1/versions/4qntY0gW/armor_statues_v2.16.1.zip
+      - https://cdn.modrinth.com/data/2pK3w13d/versions/duCEKGMs/custom_roleplay_data_v1.6.zip
+      - https://cdn.modrinth.com/data/1s7zUX2O/versions/fOI0qHKG/name_formatting_station_v2.9.zip
 
     vanilla_tweaks_post_url: "https://vanillatweaks.net/assets/server/zipdatapacks.php"
     decorative_cosmetic: ["wandering trades", "armor statues", "more mob heads", "player head drops", "silence mobs"]

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craft Tracker</title>
+    <meta name="description" content="Track your knitting and crocheting projects">
+    <meta name="theme-color" content="#1976d2">
+   
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+   
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-header">
+        <div class="header-content">
+            <div class="app-title">
+                <span class="material-icons">content_cut</span>
+                Craft Tracker
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2 class="section-title">
+                <span class="material-icons">folder</span>
+                My Projects
+            </h2>
+           
+            <div id="projectList" class="project-list">
+                <div class="empty-state">
+                    <div class="material-icons">add_circle_outline</div>
+                    <p>No projects yet. Create your first project!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="stitchTracker" class="stitch-tracker hidden">
+            <h2 class="section-title">
+                <span class="material-icons">timeline</span>
+                Stitch Counter
+            </h2>
+           
+            <div class="counter-display">
+                <div id="stitchCount" class="counter-value">0</div>
+                <div class="counter-label">Stitches</div>
+            </div>
+           
+            <div class="counter-controls">
+                <button id="decrementBtn" class="counter-btn decrement">
+                    <span class="material-icons">remove</span>
+                </button>
+                <button id="incrementBtn" class="counter-btn increment">
+                    <span class="material-icons">add</span>
+                </button>
+            </div>
+           
+            <div class="reset-section">
+                <button id="resetBtn" class="btn btn-secondary">
+                    <span class="material-icons">refresh</span>
+                    Reset Counter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="addProjectBtn" class="fab">
+        <span class="material-icons">add</span>
+    </button>
+
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">New Project</h3>
+                <button class="close-btn">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+           
+            <div class="input-group">
+                <label for="projectName">Project Name</label>
+                <input type="text" id="projectName" class="input-field" placeholder="Enter project name">
+            </div>
+           
+            <div class="input-group">
+                <label for="projectType">Project Type</label>
+                <select id="projectType" class="input-field">
+                    <option value="knitting">Knitting</option>
+                    <option value="crocheting">Crocheting</option>
+                </select>
+            </div>
+           
+            <div class="input-group">
+                <label for="projectDescription">Description (Optional)</label>
+                <input type="text" id="projectDescription" class="input-field" placeholder="Brief description">
+            </div>
+           
+            <div class="modal-actions">
+                <button class="btn btn-secondary">Cancel</button>
+                <button id="saveProjectBtn" class="btn">
+                    <span class="material-icons">save</span>
+                    Create Project
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

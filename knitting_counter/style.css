@@ -1,0 +1,319 @@
+/* Extracted from index.html <style> block */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+.app-header {
+    background: linear-gradient(135deg, #1976d2, #42a5f5);
+    color: white;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: #1976d2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.input-group {
+    margin-bottom: 16px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+.input-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+.input-field:focus {
+    outline: none;
+    border-color: #1976d2;
+}
+.btn {
+    background: #1976d2;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn:hover {
+    background: #1565c0;
+}
+.btn-secondary {
+    background: #757575;
+}
+.btn-secondary:hover {
+    background: #616161;
+}
+.btn-danger {
+    background: #d32f2f;
+}
+.btn-danger:hover {
+    background: #c62828;
+}
+.project-list {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+}
+.project-item {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.project-item:hover {
+    border-color: #1976d2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.project-item.active {
+    border-color: #1976d2;
+    background: #e3f2fd;
+}
+.project-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: #333;
+}
+.project-info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+.project-actions {
+    display: flex;
+    gap: 8px;
+}
+.icon-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+.icon-btn:hover {
+    background: #f0f0f0;
+    color: #1976d2;
+}
+.stitch-tracker {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.counter-display {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.counter-value {
+    font-size: 4rem;
+    font-weight: 300;
+    color: #1976d2;
+    margin-bottom: 8px;
+}
+.counter-label {
+    font-size: 1.2rem;
+    color: #666;
+}
+.counter-controls {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.counter-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.counter-btn.increment {
+    background: #4caf50;
+    color: white;
+}
+.counter-btn.increment:hover {
+    background: #43a047;
+    transform: scale(1.1);
+}
+.counter-btn.decrement {
+    background: #f44336;
+    color: white;
+}
+.counter-btn.decrement:hover {
+    background: #e53935;
+    transform: scale(1.1);
+}
+.reset-section {
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+.hidden {
+    display: none;
+}
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1976d2;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.fab:hover {
+    background: #1565c0;
+    transform: scale(1.1);
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #333;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+}
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+.empty-state .material-icons {
+    font-size: 64px;
+    color: #bbb;
+    margin-bottom: 16px;
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+    .counter-value {
+        font-size: 3rem;
+    }
+    .counter-controls {
+        gap: 12px;
+    }
+    .counter-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.2rem;
+    }
+}
