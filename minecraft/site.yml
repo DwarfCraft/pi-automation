@@ -22,12 +22,58 @@
     difficulty: hard
     level_name: "world"
     view_distance: 32
-    minecraft_version: 1.21.11
+    # minecraft_version: 26.3
     #download_url: https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
     # Fabric Loader 0.16.14
-    download_url: https://meta.fabricmc.net/v2/versions/loader/1.21.11/0.18.4/1.1.1/server/jar
+    download_url: https://meta.fabricmc.net/v2/versions/loader/26.3/0.19.5/1.1.2/server/jar
     root_user: root
     root_group: root
+# Target versions
+    minecraft_version: "26.3"
+    modloader: "fabric"
+    mods_dir: "{{ minecraft_home }}/mods"
+    datapacks_dir: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+
+    # Modrinth Project Slugs / IDs for Server Mods
+    server_mod_slugs:
+      - fabric-api
+      - lithium
+      - ferrite-core
+      - simple-voice-chat
+      - spark
+      - peek
+      - status
+      - freecam
+      - axiom
+      - camera-utils
+      - chat-heads
+      - chat-signing-hider
+      - entityculling
+      - entitytexturefeatures
+      - entity-model-features
+      - fast-trading
+      - immediatelyfast
+      - modmenu
+      - moreculling
+      - server-resource-pack-checker
+      - shulkerboxtooltip
+      - krypton
+      - cloth-config
+      - enhanced-groups
+      - collective
+      - armor-poser
+      - player-head-drops
+      - just-mob-heads
+      - audioplayer
+      - inhabitor
+      - view-distance-fix
+
+    # Modrinth Project Slugs / IDs for Server Datapacks
+    server_datapack_slugs:
+      - armor-statues
+      - custom-roleplay-data
+      - name-formatting-station
+
     fabric_mods:
     # Fabric Mods for 1.21.10
       #- https://cdn.modrinth.com/data/kPkTtp4N/versions/7qLQenlv/coordfinder-fabric-1.21.10-1.1.0.jar
@@ -53,7 +99,28 @@
       - https://cdn.modrinth.com/data/PFwYNrHb/versions/nkNfOD50/ArmorPoser-fabric-1.21.11-13.1.0.jar
       - https://cdn.modrinth.com/data/cz5Ve1NT/versions/JVA3SQni/player-drops-head-v3.4.1.jar
       - https://cdn.modrinth.com/data/jzTUm9hE/versions/cVsrTAJ5/justmobheads-1.21.11-8.9.jar
+    # Fabric Mods for 26.3
+      - https://cdn.modrinth.com/data/N6n5dqoA/versions/EjUybJv3/Axiom-6.1.2-for-MC26.3.jar
+      - https://cdn.modrinth.com/data/rrwQMaWQ/versions/5XAah6bJ/camerautils-fabric-1.1.2%2B26.3.jar
+      - https://cdn.modrinth.com/data/Wb5oqrBJ/versions/R2zOq4xG/chat_heads-1.2.9-fabric-26.3.jar
+      - https://cdn.modrinth.com/data/6KrNtW32/versions/NdGAWgGG/chatsigninghider-fabric-1.0.5%2B26.3.jar
+      - https://cdn.modrinth.com/data/NNAgCjsB/versions/QA5fog9j/entityculling-neoforge-1.11.1-mc26.3.jar
+      - https://cdn.modrinth.com/data/BVzZfTc1/versions/Hs3N31ud/entity_texture_features-7.2.4-26.3-fabric.jar
+      - https://cdn.modrinth.com/data/4I1XuqiY/versions/kdDVwkgV/entity_model_features-3.3.8-26.3-fabric.jar
+      - https://cdn.modrinth.com/data/P7dR8mSH/versions/bNnaTiuM/fabric-api-0.161.0%2B26.3.jar
+      - https://cdn.modrinth.com/data/Ht0RRAt0/versions/zqV1KmW2/FastTrading-0.2.4%2B26.3.jar
+      - https://cdn.modrinth.com/data/XeEZ3fK2/versions/QzwNJy7n/freecam-fabric-1.5.0-alpha.1%2Bmc26.3.jar
+      - https://cdn.modrinth.com/data/5ZwdcRci/versions/3MP9UR23/ImmediatelyFast-Fabric-1.17.1%2B26.3.jar
+      - https://cdn.modrinth.com/data/gvQqBUqZ/versions/WXHRsMRl/lithium-fabric-0.26.1%2Bmc26.3.jar
+      - https://cdn.modrinth.com/data/mOgUt4GM/versions/lcxkZSq6/modmenu-21.0.0-beta.1.jar
+      - https://cdn.modrinth.com/data/51shyZVL/versions/zL2UEFXS/moreculling-fabric-26.3-1.9.0-beta.1.jar
+      - https://cdn.modrinth.com/data/TnOXNf5e/versions/7nzkbVPa/peek-fabric-1.6.0%2B26.3.jar
+      - https://cdn.modrinth.com/data/fCpuZIcM/versions/MIlOIpGV/resourcepackchecker-fabric-1.2.2%2B26.3.jar
+      - https://cdn.modrinth.com/data/2M01OLQq/versions/Cj9VEeGt/shulkerboxtooltip-fabric-5.4.2%2B26.3.jar
 
+      - https://cdn.modrinth.com/data/AANobbMI/versions/bAZQdGpg/sodium-fabric-0.9.2%2Bmc26.3.jar
+      - https://cdn.modrinth.com/data/b93awgkg/versions/WL6fnRhA/status-fabric-1.1.0%2B26.3.jar
+      - https://cdn.modrinth.com/data/9eGKb6K1/versions/OLnMVWXy/voicechat-fabric-2.6.24%2B26.3.jar
     data_packs:
     # Mods for 1.21.10
       - https://cdn.modrinth.com/data/v1U62WLz/versions/gT5GHeMS/Statistic-Books-MC_v1.6.3.zip
@@ -279,29 +346,119 @@
         mode: 0644
       become: true
       become_user: "{{ minecraft_user }}"
-    - name: install mods
-      get_url:
-        url: "{{ item }}"
-        dest: "{{ minecraft_home }}/mods/{{ item | basename }}"
-      with_items: "{{ fabric_mods }}"
+
+    - name: Query Modrinth API for server mods compatible with {{ minecraft_version }}
+      ansible.builtin.uri:
+        url: >-
+          https://api.modrinth.com/v2/project/{{ item }}/version?loaders=%5B%22{{ modloader }}%22%5D&game_versions=%5B%22{{ minecraft_version }}%22%5D
+        method: GET
+        headers:
+          User-Agent: "HolmesCraft-AnsibleDeploy/1.0 (admin@holmescraft.internal)"
+        return_content: true
+      loop: "{{ server_mod_slugs }}"
+      register: mod_api_responses
+      check_mode: false
+      tags: [mods]
+
+    - name: Fail if any server mod is missing a compatible release
+      ansible.builtin.assert:
+        that:
+          - item.json is defined
+          - (item.json | length) > 0
+        fail_msg: "Mod '{{ item.item }}' has NO compatible release found for Minecraft {{ minecraft_version }} on {{ modloader }}!"
+      loop: "{{ mod_api_responses.results }}"
+      tags: [mods]
+
+    - name: Ensure server mods directory exists
+      ansible.builtin.file:
+        path: "{{ mods_dir }}"
+        state: directory
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+        mode: '0755'
+      become: true
+      become_user: "{{ root_user }}"
+      tags: [mods]
+
+    - name: Purge old JARs to prevent multi-version collision
+      ansible.builtin.shell: "rm -f {{ mods_dir }}/*.jar"
       become: true
       become_user: "{{ minecraft_user }}"
-    - name: ensure world and datapacks directories exist
-      file:
-        path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+      # tags: [mods]
+
+    - name: Download verified server mods
+      ansible.builtin.get_url:
+        url: "{{ (item.json[0].files | selectattr('primary', 'defined') | selectattr('primary') | list | first | default(item.json[0].files[0])).url }}"
+        dest: "{{ mods_dir }}/{{ (item.json[0].files | selectattr('primary', 'defined') | selectattr('primary') | list | first | default(item.json[0].files[0])).filename }}"
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+        mode: '0644'
+      loop: "{{ mod_api_responses.results }}"
+      become: true
+      become_user: "{{ minecraft_user }}"
+      tags: [mods]
+
+    - name: Ensure world and datapacks directories exist
+      ansible.builtin.file:
+        path: "{{ datapacks_dir }}"
         state: directory
         mode: '0755'
         owner: "{{ minecraft_user }}"
         group: "{{ minecraft_group }}"
       become: true
       become_user: "{{ minecraft_user }}"
-    - name: download the data packs
-      get_url:
-        url: "{{ item }}"
-        dest: "{{ minecraft_home }}/{{ level_name }}/datapacks/{{ item | basename }}"
-      with_items: "{{ data_packs }}"
+
+    - name: Query Modrinth API for datapacks compatible with {{ minecraft_version }}
+      ansible.builtin.uri:
+        url: >-
+          https://api.modrinth.com/v2/project/{{ item }}/version?loaders=%5B%22datapack%22%5D&game_versions=%5B%22{{ minecraft_version }}%22%5D
+        method: GET
+        headers:
+          User-Agent: "HolmesCraft-AnsibleDeploy/1.0 (admin@holmescraft.internal)"
+        return_content: true
+      loop: "{{ server_datapack_slugs }}"
+      register: datapack_api_responses
+
+    - name: Purge old Modrinth datapack archives
+      ansible.builtin.shell: "rm -f {{ datapacks_dir }}/*.zip"
       become: true
       become_user: "{{ minecraft_user }}"
+
+    - name: Download verified Modrinth datapacks
+      ansible.builtin.get_url:
+        url: "{{ (item.json[0].files | selectattr('primary', 'defined') | selectattr('primary') | list | first | default(item.json[0].files[0])).url }}"
+        dest: "{{ datapacks_dir }}/{{ (item.json[0].files | selectattr('primary', 'defined') | selectattr('primary') | list | first | default(item.json[0].files[0])).filename }}"
+        owner: "{{ minecraft_user }}"
+        group: "{{ minecraft_group }}"
+        mode: '0644'
+      loop: "{{ datapack_api_responses.results }}"
+      when: (item.json | length) > 0
+      become: true
+      become_user: "{{ minecraft_user }}"
+
+    # - name: install mods
+    #   get_url:
+    #     url: "{{ item }}"
+    #     dest: "{{ minecraft_home }}/mods/{{ item | basename }}"
+    #   with_items: "{{ fabric_mods }}"
+    #   become: true
+    #   become_user: "{{ minecraft_user }}"
+    # - name: ensure world and datapacks directories exist
+    #   file:
+    #     path: "{{ minecraft_home }}/{{ level_name }}/datapacks"
+    #     state: directory
+    #     mode: '0755'
+    #     owner: "{{ minecraft_user }}"
+    #     group: "{{ minecraft_group }}"
+    #   become: true
+    #   become_user: "{{ minecraft_user }}"
+    # - name: download the data packs
+    #   get_url:
+    #     url: "{{ item }}"
+    #     dest: "{{ minecraft_home }}/{{ level_name }}/datapacks/{{ item | basename }}"
+    #   with_items: "{{ data_packs }}"
+    #   become: true
+    #   become_user: "{{ minecraft_user }}"
 
     - name: Prepare POST body for VanillaTweaks
       uri:
